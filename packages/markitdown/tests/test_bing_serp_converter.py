@@ -19,6 +19,11 @@ REDIRECT_HREF = (
     "&amp;u=a1aHR0cHM6Ly9kb2NzLnB5dGhvbi5vcmcvMy8="
 )
 
+REDIRECT_WITH_DEFAULT_PORT_HREF = (
+    "https://www.bing.com:443/ck/a?!&amp;&amp;p=xyz"
+    "&amp;u=a1aHR0cHM6Ly9kb2NzLnB5dGhvbi5vcmcvMy8="
+)
+
 NORMAL_HREF = "https://example.com/profile?u=abcdef"
 
 LOOKALIKE_HREF = "https://not-bing.com/ck/a?u=a1aHR0cHM6Ly9kb2NzLnB5dGhvbi5vcmcvMy8="
@@ -59,6 +64,13 @@ def _convert(*hrefs: str) -> str:
 
 def test_bing_redirect_is_decoded_to_its_destination() -> None:
     markdown = _convert(REDIRECT_HREF)
+
+    assert "](%s)" % REDIRECT_TARGET in markdown
+    assert "ck/a" not in markdown
+
+
+def test_bing_redirect_with_default_https_port_is_decoded() -> None:
+    markdown = _convert(REDIRECT_WITH_DEFAULT_PORT_HREF)
 
     assert "](%s)" % REDIRECT_TARGET in markdown
     assert "ck/a" not in markdown

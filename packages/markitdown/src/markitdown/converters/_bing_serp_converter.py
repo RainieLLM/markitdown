@@ -26,7 +26,7 @@ def _is_bing_redirect(parsed_href: ParseResult) -> bool:
     A normal result may use `u=` for its own purpose. So the base64 payload is
     decoded only when the link is one that Bing wrapped.
     """
-    host = (parsed_href.netloc or "").lower()
+    host = (parsed_href.hostname or "").lower()
     if host != "bing.com" and not host.endswith(".bing.com"):
         return False
     return parsed_href.path == "/ck/a"
